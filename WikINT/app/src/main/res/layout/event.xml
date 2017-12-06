@@ -21,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
-                android:padding="5dp"
+                android:padding="15dp"
                 android:src="@drawable/asint_logo" />
 
             <LinearLayout
@@ -63,15 +63,29 @@
             android:layout_width="wrap_content"
             android:layout_height="200dp"
             android:layout_marginHorizontal="20dp"
-            android:src="@drawable/clinique" />
+            android:src="@drawable/clinique"
+            android:scaleType="centerCrop"/>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Description : "
-            android:textSize="20dp"
+            android:padding="10dp"
+            android:orientation="horizontal">
 
-            />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Prévenir des ami(e)s"
+                android:gravity="center"/>
+            <Button
+                android:layout_width="@android:dimen/thumbnail_width"
+                android:layout_height="wrap_content"
+                android:text="Détails"
+                android:textAlignment="center"/>
+
+
+
+        </LinearLayout>
 
     </LinearLayout>
 

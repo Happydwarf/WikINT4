@@ -5,7 +5,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,7 +14,7 @@ import java.util.List;
 public class Association implements Parcelable {
     private String name;
     private int id;
-    private String profil_picture;
+    private Image logo;
     private String president;
     private String local;
     private String description;
@@ -23,40 +22,17 @@ public class Association implements Parcelable {
     private List<String> members;
     private List<Event> eventList;
 
-    public Association(String name, int id, String profil_picture, String president, String local, String description, Image cover_picture, List<String> members, List<Event> eventList) {
+    public Association(String name, int id, Image logo, String president, String local, String description, Image cover_picture, List<String> members) {
         this.name = name;
         this.id = id;
-        this.profil_picture = profil_picture;
+        this.logo = logo;
         this.president = president;
         this.local = local;
         this.description = description;
         this.cover_picture = cover_picture;
         this.members = members;
-        this.eventList = eventList;
     }
 
-
-    protected Association(Parcel in) {
-        name = in.readString();
-        id = in.readInt();
-        profil_picture = in.readString();
-        president = in.readString();
-        local = in.readString();
-        description = in.readString();
-        members = in.createStringArrayList();
-    }
-
-    public static final Creator<Association> CREATOR = new Creator<Association>() {
-        @Override
-        public Association createFromParcel(Parcel in) {
-            return new Association(in);
-        }
-
-        @Override
-        public Association[] newArray(int size) {
-            return new Association[size];
-        }
-    };
 
 
 
@@ -84,14 +60,6 @@ public class Association implements Parcelable {
         this.description = description;
     }
 
-    public String getProfil_picture() {
-        return profil_picture;
-    }
-
-    public void String(String profil_picture) {
-        this.profil_picture = profil_picture;
-    }
-
     public String getLocal() {
         return local;
     }
@@ -108,6 +76,13 @@ public class Association implements Parcelable {
         this.president = president;
     }
 
+    public Image getLogo() {
+        return logo;
+    }
+
+    public void setLogo(Image logo) {
+        this.logo = logo;
+    }
 
     public int getId() {
         return id;
@@ -133,6 +108,30 @@ public class Association implements Parcelable {
         this.eventList = eventList;
     }
 
+
+
+    //Parcelable part
+    protected Association(Parcel in) {
+        name = in.readString();
+        id = in.readInt();
+        president = in.readString();
+        local = in.readString();
+        description = in.readString();
+        members = in.createStringArrayList();
+    }
+
+    public static final Creator<Association> CREATOR = new Creator<Association>() {
+        @Override
+        public Association createFromParcel(Parcel in) {
+            return new Association(in);
+        }
+
+        @Override
+        public Association[] newArray(int size) {
+            return new Association[size];
+        }
+    };
+
     @Override
     public int describeContents() {
         return 0;
@@ -142,12 +141,9 @@ public class Association implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeInt(id);
-        dest.writeString(profil_picture);
         dest.writeString(president);
         dest.writeString(local);
         dest.writeString(description);
         dest.writeStringList(members);
     }
-
-
 }

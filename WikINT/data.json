@@ -1,0 +1,39 @@
+﻿{
+  "associations": [
+    {
+      "id": 1,
+      "name": "ASINT",
+      "president": "Perrin Alexis",
+      "local": "RDC du Foyer",
+      "description": "Qu�est ce que c�est ? L�ASINT comme son nom l�indique, est l�association qui g�re toutes les activit�s sportives des �tudiants de nos deux �coles, mais cela n�en fait pas le classique BDS que l�on y trouve dans les autres �coles.C�est bien plus que cela, il s�agit en effet de la deuxi�me association du campus, avec une identit� et des valeurs fortes, qui tiennent une place de choix dans la vie de l�INT. Il sera d�ailleurs difficile de passer � c�t� des polos roses pendant la SEI et le WEI, alors puisque l�ASINT vaut mieux qu�un long discours, on t�invite � venir d�couvrir notre univers toute la semaine....Qu�est ce qu�on y fait ?Cotisez et vous pourrez profiter de toutes les infrastructures sportives de notre beau campus: terrains de tennis, terrain de basket, gymnase, salle de musculation, street workout�Vous pourrez aussi pratiquer en loisirs ou en comp�tition (championnats universitaires) des sports encadr�s par des professionnels tels que: Rugby, Foot, Hand, Basket, Volley, Badminton,Tennis, Sports de combat, Musculation (tous les jours de la semaine), �Des partenariats avec des clubs d��quitation, d�escalade et de golf existent et permettent de pratiquer ces sports � prix r�duit._Mais l�ASINT c�est aussi 3 soir�es, dont celle de la SEI en collaboration avec le BDA, des �v�nements sportifs, et bien s�r le Week End Ski !",
+      "members": ["Perrin Alexis", "Lavric Valentin", "Bonnefous Pierrick", "Finkenberg Clara", "Leonhardt Laura"],
+      "eventList": ["Soir�e Halloween : Cli'nique Psychia'Trique", "Assolympiades 1"]
+    },
+    {
+      "id": 2,
+      "name": "BDE",
+      "president": "Pradère Théo",
+      "local": "RDC du Foyer",
+      "description": "Ton BDE est là pour te faire passer une année inoubliableAvec : une semaine et un week-end d�int�gration � ne rater sous aucun pr�texte, des soir�es de folies et des voyages dans les capitales Europ�ennes, tu n�auras pas le temps de t�ennuyer !Tu pourras aussi renforcer tes liens aupr�s de grandes entreprises lors de journ�es professionnelles organis�es par nos soins.Tu ne pourras pas nous louper avec nos polos bleus sur les �paules, n�h�site surtout pas � venir nous voir si tu as la moindre question lors de ton arriv�e, nous serons l� pour t�accueillir !Comment faire partie du BDE ?La t�che est difficile mais la satisfaction n�en est que plus grande.Tu as certainement entendu parler des c�l�bres campagnes BDE dans les plus grandes �coles, rien � voir avec la n�tre ! C�est L��V�NEMENT incontournable de l�ann�e, tout le campus est rythm� autour de ces mois de campagne o� tu devras montrer au campus que tu es � la hauteur de tes ambitions ! Rien de mieux pour trouver une nouvelle famille et r�aliser les �v�nements les plus fous, impensables � ton arriv�e.Alors rejoins les plus motiv�s de ta promo et sois pr�t pour marquer � ton tour l�histoire de nos deux �coles � tout jamais !",
+      "members": ["Prad�re Th�o", "Jordan", "Yann", "Poncet", "Borgna"],
+      "eventList": ["Soir�e Parrainage - Divina Vesperum", "Soir�e de No�l"]
+    }
+  ],
+    "events": [
+    {
+      "id_association": 1,
+      "date": "27/10/2017",
+      "name": "Soir�e Halloween : Cli'nique Psychia'Trique",
+      "description": "SOIR�E HALLOWEEN 2017 - CLI�NIQUE PSYCHIA�TRIQUE : BIENVENUE A SHOT�TER ISLAND.Oyez, Oyez,L'ASINT Fireballs vous convie � la soir�e la plus sale de l'ann�e en ce vendredi 27 octobre. P�n�trez dans la Cli�nique Psychia�trique et soyez pr�ts � affronter vos pires cauchemars.Hissez les voiles de votre folie, laissez-vous guider par les flots incessants de votre d�pravation. Vous accosterez alors � Shot'ter Island, lieu de d�bauche et de d�r�glement.Que vous soyez un cochon malade ou une infirmi�re d�r�gl�e, p�n�trez en ces lieux o� vos fantasmes deviendront r�alit�.",
+      "lieu": "T�l�com SudParis - Foyer"
+    },
+    {
+      "id_association": 2,
+      "date": "10/10/2017",
+      "name": "Soir�e Parrainage - Divina Vesperum",
+      "description": "Ave jeunes INTiens INTtiennes !Retour vers le pass� ! Divina Vesperum (Soir�e Divine), la soir�e parrainage organis�e par le BDE, vous fera suivre les traces des pharaons et vous plongera dans les doux plaisirs �gyptiens. Soyez Cl�op�tre, Ramses ou R�. Les Egyptiens et leurs chats ne vous conviennent pas ? Venez vivre une vraie orgie greco-romaine, soyez ma�tre de l�Olympe et d�lectez-vous d�hydromel, de vodka� et de vodka. Pr�parez vous � la Divina Vesperum par Toutatis.",
+      "lieu": "T�l�com SudParis - Foyer"
+    }
+  ]
+}
+

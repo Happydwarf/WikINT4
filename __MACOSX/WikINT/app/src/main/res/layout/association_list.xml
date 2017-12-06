@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+        <GridLayout
+            android:id="@+id/GridLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnCount="3"
+            android:orientation="horizontal"
+            android:rowCount="10"
+            tools:context="com.inducesmile.gridlayouttutorial.MainActivity">
+
+
+
+
+            <FrameLayout
+                android:layout_width="@android:dimen/thumbnail_width"
+                android:layout_height="120dp"
+                android:layout_column="0"
+                android:layout_row="0">
+
+                <ImageButton
+                    android:id="@+id/detail"
+                    android:tag="bde"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:padding="5dp"
+                    app:srcCompat="@drawable/button" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/logo_bde"
+                    android:padding="10dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="BDE"
+                    android:padding="10dp"
+                    android:gravity="center_horizontal"
+                    android:layout_gravity="bottom"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="@android:dimen/thumbnail_width"
+                android:layout_height="120dp"
+                android:layout_column="1"
+                android:layout_row="0">
+
+                <ImageButton
+                    android:id="@id/detail"
+                    android:tag="asint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:padding="5dp"
+                    app:srcCompat="@drawable/button" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/asint_logo"
+                    android:padding="10dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ASINT"
+                    android:gravity="center_horizontal|bottom"
+                    android:layout_gravity="bottom"
+                    android:padding="10dp"/>
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="@android:dimen/thumbnail_width"
+                android:layout_height="120dp"
+                android:layout_column="0"
+                android:layout_row="1">
+
+                <ImageButton
+                    android:id="@+id/declic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:padding="5dp"
+                    app:srcCompat="@drawable/button" />
+
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/logo_declic"
+                        android:padding="10dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Name of the association"
+                        android:gravity="center_horizontal"
+                        android:padding="10dp"
+                        android:layout_gravity="bottom"/>
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="@android:dimen/thumbnail_width"
+                android:layout_height="120dp"
+                android:layout_column="1"
+                android:layout_row="1">
+
+                <ImageButton
+                    android:id="@+id/n"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:padding="5dp"
+                    app:srcCompat="@drawable/button" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/logo_bde"
+                    android:padding="10dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="BDE"
+                    android:padding="10dp"
+                    android:gravity="center_horizontal"
+                    android:layout_gravity="bottom"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="@android:dimen/thumbnail_width"
+                android:layout_height="120dp"
+                android:layout_column="0"
+                android:layout_row="2">
+
+                <ImageButton
+                    android:id="@+id/a"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:padding="5dp"
+                    app:srcCompat="@drawable/button" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/asint_logo"
+                    android:padding="10dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ASINT"
+                    android:gravity="center_horizontal|bottom"
+                    android:layout_gravity="bottom"
+                    android:padding="10dp"/>
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="@android:dimen/thumbnail_width"
+                android:layout_height="120dp"
+                android:layout_column="1"
+                android:layout_row="2">
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:padding="5dp"
+                    app:srcCompat="@drawable/button" />
+
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/ic_launcher"
+                    android:padding="10dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Name of the association"
+                    android:gravity="center_horizontal"
+                    android:padding="10dp"
+                    android:layout_gravity="bottom"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="@android:dimen/thumbnail_width"
+                android:layout_height="120dp"
+                android:layout_column="0"
+                android:layout_row="3">
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:padding="5dp"
+                    app:srcCompat="@drawable/button" />
+
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/ic_launcher"
+                    android:padding="10dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Name of the association"
+                    android:gravity="center_horizontal"
+                    android:padding="10dp"
+                    android:layout_gravity="bottom"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="@android:dimen/thumbnail_width"
+                android:layout_height="120dp"
+                android:layout_column="1"
+                android:layout_row="3">
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:padding="5dp"
+                    app:srcCompat="@drawable/button" />
+
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/ic_launcher"
+                    android:padding="10dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Name of the association"
+                    android:gravity="center_horizontal"
+                    android:padding="10dp"
+                    android:layout_gravity="bottom"/>
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="@android:dimen/thumbnail_width"
+                android:layout_height="120dp"
+                android:layout_column="0"
+                android:layout_row="4">
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:padding="5dp"
+                    app:srcCompat="@drawable/button" />
+
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/ic_launcher"
+                    android:padding="10dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Name of the association"
+                    android:gravity="center_horizontal"
+                    android:padding="10dp"
+                    android:layout_gravity="bottom"/>
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="@android:dimen/thumbnail_width"
+                android:layout_height="120dp"
+                android:layout_column="1"
+                android:layout_row="4">
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:padding="5dp"
+                    app:srcCompat="@drawable/button" />
+
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/ic_launcher"
+                    android:padding="10dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Name of the association"
+                    android:gravity="center_horizontal"
+                    android:padding="10dp"
+                    android:layout_gravity="bottom"/>
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="@android:dimen/thumbnail_width"
+                android:layout_height="120dp"
+                android:layout_column="0"
+                android:layout_row="5">
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:padding="5dp"
+                    app:srcCompat="@drawable/button" />
+
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/ic_launcher"
+                    android:padding="10dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Name of the association"
+                    android:gravity="center_horizontal"
+                    android:padding="10dp"
+                    android:layout_gravity="bottom"/>
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="@android:dimen/thumbnail_width"
+                android:layout_height="120dp"
+                android:layout_column="1"
+                android:layout_row="5">
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:padding="5dp"
+                    app:srcCompat="@drawable/button" />
+
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/ic_launcher"
+                    android:padding="10dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Name of the association"
+                    android:gravity="center_horizontal"
+                    android:padding="10dp"
+                    android:layout_gravity="bottom"/>
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="@android:dimen/thumbnail_width"
+                android:layout_height="120dp"
+                android:layout_column="0"
+                android:layout_row="6">
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:padding="5dp"
+                    app:srcCompat="@drawable/button" />
+
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/ic_launcher"
+                    android:padding="10dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Name of the association"
+                    android:gravity="center_horizontal"
+                    android:padding="10dp"
+                    android:layout_gravity="bottom"/>
+            </FrameLayout>
+        </GridLayout>
+
+
+
+    </ScrollView>
+</LinearLayout>

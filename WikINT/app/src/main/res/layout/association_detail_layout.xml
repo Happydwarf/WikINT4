@@ -22,7 +22,6 @@
                     android:layout_width="fill_parent"
                     android:scaleType="centerCrop"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/cover_asint"
                     android:layout_gravity="top" />
 
                 <ImageView
@@ -41,14 +40,88 @@
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
                 android:textStyle="bold"
+                android:text="ASINT"
                 android:layout_marginTop="15dp"
                 android:textSize="25dp" />
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:columnCount="3"
+                android:rowCount="2">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_column="0"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_row="0"
+                    android:src="@drawable/pres" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_column="0"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_row="1"
+                    android:src="@drawable/local3" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_column="1"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:textStyle="bold"
+                    android:layout_row="0"
+                    android:text="Président :"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_column="1"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_row="1"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:text="Local :"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/nom_prez"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_column="2"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_row="0"
+                    android:text=""
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/lieu_local"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_column="2"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_row="1"
+                    android:text=""
+                    android:textSize="15dp" />
+            </GridLayout>
+
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:text="Description :"
                 android:textAlignment="center"
                 android:textSize="20dp"
@@ -60,17 +133,13 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:gravity="center"
-                android:layout_margin="10dp"
-                android:text="...Qu’est ce que c’est ?
-
-        L’ASINT comme son nom l’indique, est l’association qui gère toutes les activités sportives des étudiants de nos deux écoles, mais cela n’en fait pas le classique BDS que l’on y trouve dans les autres écoles.
-
-        C’est bien plus que cela, il s’agit en effet de la deuxième association du campus, avec une identité et des valeurs fortes, qui tiennent une place de choix dans la vie de l’INT. Il sera d’ailleurs difficile de passer à côté des polos roses pendant la SEI et le WEI, alors puisque l’ASINT vaut mieux qu’un long discours, on t’invite à venir découvrir notre univers toute la semaine.
-" />
+                android:layout_margin="5dp"
+                android:text="" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
                 android:orientation="horizontal"
                 android:weightSum="2">
 

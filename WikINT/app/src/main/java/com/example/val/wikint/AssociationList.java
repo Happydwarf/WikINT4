@@ -21,19 +21,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-
-import static android.app.PendingIntent.getActivity;
 
 /**
  * Created by alexisblervaque on 24/11/2017.
@@ -56,40 +49,14 @@ public class AssociationList extends Activity {
         //Get Back the list of association;
         ArrayList<Association> AssociationList = new ArrayList<Association>();
 
-
-        AssociationList.add(new Association("asint_logo",0,null,"Théo","local","descirption",null,null));
-        AssociationList.add(new Association("asint_logo",0,null,"Théo","local","descirption",null,null));
-        AssociationList.add(new Association("asint_logo",0,null,"Théo","local","descirption",null,null));
-        AssociationList.add(new Association("asint_logo",0,null,"Théo","local","descirption",null,null));
-        AssociationList.add(new Association("asint_logo",0,null,"Théo","local","descirption",null,null));
-        AssociationList.add(new Association("asint_logo",0,null,"Théo","local","descirption",null,null));
+        AssociationList.add(new Association("ASINT", 0, "asint_logo", "Alexis Perrin", "RDC Foyer", "description", "cover_asint", null, null));
+        AssociationList.add(new Association("ASINT", 0, "asint_logo", "Alexis Perrin", "RDC Foyer", "description", "cover_asint", null, null));
+        AssociationList.add(new Association("ASINT", 0, "asint_logo", "Alexis Perrin", "RDC Foyer", "description", "cover_asint", null, null));
+        AssociationList.add(new Association("ASINT", 0, "asint_logo", "Alexis Perrin", "RDC Foyer", "description", "cover_asint", null, null));
 
 
 
         AssoContainer.setRowCount(AssociationList.size()/2 + AssociationList.size()%2);
-
-
-        /*tring json = null;
-        try {
-            InputStream is = getActivity().getAssets().open("data.json");
-
-            int size = is.available();
-
-            byte[] buffer = new byte[size];
-
-            is.read(buffer);
-
-            is.close();
-
-            json = new String(buffer, "UTF-8");
-
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }*/
-
-
 
         int i = 0;
         for (Association asso : AssociationList)
@@ -119,20 +86,20 @@ public class AssociationList extends Activity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(v.getContext(), AssociationDetail.class);
+                Intent i = new Intent(v.getContext(),AssociationDetail.class);
                 Bundle b = new Bundle();
                 b.putParcelable("Asso",asso);
-                i.putExtra("Association",b);
+                i.putExtra("Association", b);
                 startActivity(i);
+
             }
         });
-
 
         ImageView image = new ImageView(this);
         LinearLayout.LayoutParams imageParam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         imageParam.gravity = Gravity.CENTER;
         image.setLayoutParams(imageParam);
-        int imageId = getResources().getIdentifier(asso.getName(),"drawable",getPackageName());
+        int imageId = getResources().getIdentifier(asso.getProfil_picture(),"drawable",getPackageName());
         image.setImageResource(imageId);
         image.setPadding(10,30,10,10);
 

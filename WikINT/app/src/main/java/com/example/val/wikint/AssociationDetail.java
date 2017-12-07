@@ -34,6 +34,10 @@ public class AssociationDetail extends Activity {
 
         // Automaticaly create the template of the association asso
 
+        String name = asso.getName();
+        TextView nom_asso = (TextView)findViewById(R.id.nom_asso);
+        nom_asso.setText(name);
+
         String description = asso.getDescription();
         TextView descriptionView = (TextView)findViewById(R.id.description);
         descriptionView.setText(description);

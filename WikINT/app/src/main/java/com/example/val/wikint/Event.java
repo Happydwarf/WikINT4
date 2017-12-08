@@ -3,6 +3,7 @@ package com.example.val.wikint;
 import android.media.Image;
 import android.provider.ContactsContract;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -10,20 +11,34 @@ import java.util.Date;
  */
 
 public class Event {
+
+
     private Date date;
     private String name;
     private String description;
-    private Image image;
+    private ArrayList<String> images;
     private String lieu;
     private int id_association;
 
-    public Event(Date date, String name, String description, Image image, String lieu, int id_association) {
+    public Event(Date date, String name, String description, ArrayList<String> images, String lieu, int id_association) {
         this.date = date;
         this.name = name;
         this.description = description;
-        this.image = image;
+        this.images = images;
         this.lieu = lieu;
         this.id_association = id_association;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "date=" + date +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", images=" + images +
+                ", lieu='" + lieu + '\'' +
+                ", id_association=" + id_association +
+                '}';
     }
 
 
@@ -51,12 +66,12 @@ public class Event {
         this.description = description;
     }
 
-    public Image getImage() {
-        return image;
+    public ArrayList<String> getImages() {
+        return images;
     }
 
-    public void setImage(Image image) {
-        this.image = image;
+    public void setImage(ArrayList<String> images) {
+        this.images = images;
     }
 
     public String getLieu() {

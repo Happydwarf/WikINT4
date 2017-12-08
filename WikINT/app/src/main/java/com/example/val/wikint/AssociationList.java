@@ -2,6 +2,7 @@ package com.example.val.wikint;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -21,6 +22,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -113,6 +124,27 @@ public class AssociationList extends Activity {
         AssociationList.add(new Association("AbsINThe", 4, "logo_absinthe", "Alexandre Millero", "Grande salle du Foyer", description_absinthe, "cover_absinthe", null, null));
 
 
+        String my_json_string = loadJSONFromAsset(this);
+        Log.d("JSON content as string", my_json_string);
+
+        Log.d("Stop", "-------------------------------------------");
+
+        /*List<Coin> list = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            list.add(new Coin(String.valueOf(i)));
+        }
+
+        for (Coin coin : list) {
+            System.out.println(coin);
+        }*/
+
+        Log.d("Stop", "-------------------------------------------");
+
+        JsonParser mGparser = new JsonParser();
+        Gson mGson = new Gson();
+        JsonArray associationsJsonArray = (JsonArray) mGparser.parse(my_json_string);
+        ArrayList<Association> associations = mGson.fromJson(associationsJsonArray, new TypeToken<ArrayList<Association>>() {}.getType());
+
 
         AssoContainer.setRowCount(AssociationList.size()/2 + AssociationList.size()%2);
 
@@ -177,5 +209,45 @@ public class AssociationList extends Activity {
 
 
         return result;
+    }
+
+    private class JsonData
+    {
+        private ArrayList<Association> associations;
+        private ArrayList<Event> events;
+
+        public ArrayList<Association> getAssociations() {
+            return associations;
+        }
+
+        public void setAssociations(ArrayList<Association> associations) {
+            this.associations = associations;
+        }
+
+        public ArrayList<Event> getEvents() {
+            return events;
+        }
+
+        public void setEvents(ArrayList<Event> events) {
+            this.events = events;
+        }
+    }
+
+
+    public String loadJSONFromAsset(Context context) {
+        String json = null;
+        try {
+            InputStream is = context.getAssets().open("data.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
     }
 }

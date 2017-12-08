@@ -13,6 +13,9 @@ import java.util.List;
  */
 
 public class Association implements Parcelable {
+
+
+
     private String name;
     private int id;
     private String profil_picture;
@@ -20,10 +23,10 @@ public class Association implements Parcelable {
     private String local;
     private String description;
     private String cover_picture;
-    private List<String> members;
-    private List<Event> eventList;
+    private ArrayList<String> members;
+    private ArrayList<Event> eventList;
 
-    public Association(String name, int id, String profil_picture, String president, String local, String description, String cover_picture, List<String> members, List<Event> eventList) {
+    public Association(String name, int id, String profil_picture, String president, String local, String description, String cover_picture, ArrayList<String> members, ArrayList<Event> eventList) {
         this.name = name;
         this.id = id;
         this.profil_picture = profil_picture;
@@ -35,6 +38,20 @@ public class Association implements Parcelable {
         this.eventList = eventList;
     }
 
+    @Override
+    public String toString() {
+        return "Association{" +
+                "name='" + name + '\'' +
+                ", id=" + id +
+                ", profil_picture='" + profil_picture + '\'' +
+                ", president='" + president + '\'' +
+                ", local='" + local + '\'' +
+                ", description='" + description + '\'' +
+                ", cover_picture='" + cover_picture + '\'' +
+                ", members=" + members +
+                ", eventList=" + eventList +
+                '}';
+    }
 
     protected Association(Parcel in) {
         name = in.readString();
@@ -61,11 +78,11 @@ public class Association implements Parcelable {
 
 
 
-    public List<String> getMembers() {
+    public ArrayList<String> getMembers() {
         return members;
     }
 
-    public void setMembers(List<String> members) {
+    public void setMembers(ArrayList<String> members) {
         this.members = members;
     }
 
@@ -92,6 +109,11 @@ public class Association implements Parcelable {
     public void String(String profil_picture) {
         this.profil_picture = profil_picture;
     }
+
+    public void setProfil_picture(String profil_picture) {
+        this.profil_picture = profil_picture;
+    }
+
 
     public String getLocal() {
         return local;
@@ -126,11 +148,11 @@ public class Association implements Parcelable {
         this.name = name;
     }
 
-    public List<Event> getEventList() {
+    public ArrayList<Event> getEventList() {
         return eventList;
     }
 
-    public void setEventList(List<Event> eventList) {
+    public void setEventList(ArrayList<Event> eventList) {
         this.eventList = eventList;
     }
 

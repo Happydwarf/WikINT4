@@ -25,9 +25,6 @@ public class FirstActivity extends Activity {
                 case R.id.navigation_home:
                     mTextMessage.setText("Accueil");
                     return true;
-                case R.id.navigation_dashboard:
-                    mTextMessage.setText("Message");
-                    return true;
                 case R.id.navigation_notifications:
                     mTextMessage.setText("User Profil");
                     return true;
@@ -55,7 +52,15 @@ public class FirstActivity extends Activity {
             }
         });
 
-
+        Button button1 = (Button) findViewById(R.id.events);
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(view.getContext(), EventList.class);
+                startActivity(i);
+            }
+        });
     }
+
 
 }

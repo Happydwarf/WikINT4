@@ -50,12 +50,12 @@ public class AssociationDetail extends Activity {
         TextView emplacement_local = (TextView)findViewById(R.id.lieu_local);
         emplacement_local.setText(local);
 
-        String pp = asso.getProfil_picture();
+        String pp = asso.getPictures().get(0);
         ImageView photo_profil = (ImageView) findViewById(R.id.profil_picture);
         int imageId = getResources().getIdentifier(pp,"drawable",getPackageName());
         photo_profil.setImageResource(imageId);
 
-        String cover = asso.getCover_picture();
+        String cover = asso.getPictures().get(1);
         ImageView cover_pict = (ImageView) findViewById(R.id.cover_picture);
         int imageId2 = getResources().getIdentifier(cover,"drawable",getPackageName());
         cover_pict.setImageResource(imageId2);

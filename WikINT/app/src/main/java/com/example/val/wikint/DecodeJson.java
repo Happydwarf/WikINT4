@@ -1,7 +1,15 @@
 package com.example.val.wikint;
 
+import android.app.Activity;
+import android.content.Context;
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,6 +20,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static android.app.PendingIntent.getActivity;
@@ -21,93 +31,63 @@ import static android.app.PendingIntent.getActivity;
  */
 
 public class DecodeJson {
-    public static void main(String[] args) throws JSONException {
-
-        String fichier ="/Users/alexisblervaque/WikInt2.0/WikINT/data.json";
-
-        //String chaine="";
-
-        String json = null;
-
-        //lecture du fichier texte
-        try{
-            InputStream ips = new FileInputStream(fichier);
-            //InputStreamReader ipsr = new InputStreamReader(ips);
-            //BufferedReader br=new BufferedReader(ipsr);
-
-
-            byte[] buffer = new byte[ips.available()];
-
-            ips.read(buffer);
-
-            ips.close();
-
-            json = new String(buffer, "UTF-8");
-
-
-            //String ligne;
 
 
 
-
-            /*while ((ligne=br.readLine())!=null){
-                System.out.println(ligne);
-                chaine+=ligne+"\n";
-            }*/
-            //System.out.println(chaine);
-            //br.close();
-        }
-        catch (Exception e){
-            System.out.println(e.toString());
-        }
+    private ArrayList<Association> associations;
+    private ArrayList<Event> events;
 
 
+    public DecodeJson(Context context)
+    {
+        JsonParser mGparser = new JsonParser();
+        Gson mGson = new Gson();
+        Gson gson = new GsonBuilder().create();
 
 
-        GsonBuilder gsonb = new GsonBuilder();
-        Gson gson = gsonb.create();
+        String associationJsonString = loadJSONFromAsset(context, "Associations.json");
+        JsonArray associationsJsonArray = (JsonArray) mGparser.parse(associationJsonString);
+        associations = mGson.fromJson(associationsJsonArray, new TypeToken<ArrayList<Association>>() {}.getType());
 
+        String eventsJsonString = loadJSONFromAsset(context, "Events.json");
+        JsonArray eventsJsonArray = (JsonArray) mGparser.parse(eventsJsonString);
+        events = mGson.fromJson(eventsJsonArray, new TypeToken<ArrayList<Event>>() {}.getType());
 
-
-        JSONObject j;
-        Data data = null;
-
-        try
-        {
-            j = new JSONObject(json);
-            data = gson.fromJson(j.toString(), Data.class);
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-
-        System.out.println(data);
 
     }
 
 
-    private class Data
-    {
-        private List<Association> associations;
-        private List<Event> events;
+    public ArrayList<Association> getAssociations() {
+        return associations;
+    }
 
+    public void setAssociations(ArrayList<Association> associations) {
+        this.associations = associations;
+    }
 
-        public List<Association> getAssociations() {
-            return associations;
+    public ArrayList<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(ArrayList<Event> events) {
+        this.events = events;
+    }
+
+    private String loadJSONFromAsset(Context context, String fileName) {
+        String json = null;
+        try {
+            InputStream is = context.getAssets().open(fileName);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
         }
-
-        public void setAssociations(List<Association> associations) {
-            this.associations = associations;
-        }
-
-        public List<Event> getEvents() {
-            return events;
-        }
-
-        public void setEvents(List<Event> events) {
-            this.events = events;
-        }
+        return json;
     }
 
 }

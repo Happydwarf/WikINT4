@@ -1,23 +1,21 @@
 package com.example.val.wikint;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.format.DateFormat;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Formatter;
 
 /**
  * Created by alexisblervaque on 06/12/2017.
@@ -25,7 +23,7 @@ import java.util.Formatter;
 
 public class EventList extends Activity {
 
-    private ScrollView scrollContent;
+    private LinearLayout scrollContent;
     private ArrayList<Event> listeEvent;
     private ArrayList<String> images;
 
@@ -35,14 +33,19 @@ public class EventList extends Activity {
         setContentView(R.layout.event);
 
         scrollContent = findViewById(R.id.eventContainer);
-        listeEvent = new ArrayList<>();
+/*        listeEvent = new ArrayList<>();
         images = new ArrayList<>();
         images.add("clinique");
-        listeEvent.add(new Event(new Date(2017, 12, 19), "Clinique Psychiatrique", "Description DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription DescriptionDescription Description", images, "Télécom", 0));
+
+*/
+        DecodeJson JsonData = new DecodeJson(this);
+        ArrayList<Event> listeEvent = JsonData.getEvents();
+
+
 
         for (Event event : listeEvent)
         {
-            LinearLayout linear = eventLayout(event);
+            LinearLayout linear = eventLayout(event, JsonData);
             scrollContent.addView(linear);
         }
 
@@ -53,12 +56,15 @@ public class EventList extends Activity {
     }
 
 
-    private LinearLayout eventLayout(Event event)
+    private LinearLayout eventLayout(final Event event, final DecodeJson JsonData)
     {
         LinearLayout result = new LinearLayout(this);
-        result.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        LinearLayout.LayoutParams paramsFirst = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        paramsFirst.setMargins(0,0,0,20);
+        result.setLayoutParams(paramsFirst);
         //result.setBackgroundResource(R.drawable.border);
         result.setOrientation(LinearLayout.VERTICAL);
+
 
 
         //Head of the event
@@ -71,7 +77,21 @@ public class EventList extends Activity {
         logoButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
         logoButton.setBackgroundColor(Color.TRANSPARENT);
         logoButton.setPadding(15,15,15,15);
-        //logoButton.setImageResource();
+        int imageLogoID = getResources().getIdentifier(JsonData.getAssociations().get(event.getId_association()).getPictures().get(0),"drawable", getPackageName());
+        logoButton.setImageResource(imageLogoID);
+
+        logoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(v.getContext(),AssociationDetail.class);
+                Bundle b = new Bundle();
+                Association asso = JsonData.getAssociations().get(event.getId_association());
+                b.putParcelable("Asso",asso);
+                i.putExtra("Association", b);
+                startActivity(i);
+            }
+        });
+
 
         //Description of the head
         LinearLayout descriptionHead = new LinearLayout(this);
@@ -84,9 +104,10 @@ public class EventList extends Activity {
         param1.gravity = Gravity.CENTER;
         typeOfEvent.setLayoutParams(param1);
         typeOfEvent.setGravity(Gravity.CENTER_HORIZONTAL);
-        Formatter formatText = new Formatter();
-        formatText.format("Évènement de %1$b",event.getId_association());
-        typeOfEvent.setText(formatText.toString());
+
+        String associationName = JsonData.getAssociations().get(event.getId_association()).getName();
+        String type = "Evenement de " + associationName;
+        typeOfEvent.setText(type);
 
         TextView nameOfEvent = new TextView(this);
         LinearLayout.LayoutParams param2= new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,30);
@@ -101,8 +122,8 @@ public class EventList extends Activity {
         dateOfEvent.setLayoutParams(param3);
         dateOfEvent.setGravity(Gravity.CENTER_HORIZONTAL);
         SimpleDateFormat simpleDate =  new SimpleDateFormat("dd/MM/yyyy");
-        String dateString = simpleDate.format(event.getDate());
-        typeOfEvent.setText(dateString);
+        String dateString = simpleDate.format(event.getFirstDate());
+        dateOfEvent.setText(dateString);
 
         descriptionHead.addView(typeOfEvent);
         descriptionHead.addView(nameOfEvent);
@@ -141,6 +162,22 @@ public class EventList extends Activity {
         buttonDetail.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         buttonDetail.setGravity(Gravity.CENTER);
         buttonDetail.setText("Détails");
+
+        buttonDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(v.getContext(),EventDetail.class);
+                Bundle b = new Bundle();
+                b.putParcelable("event",event);
+                Association asso = JsonData.getAssociations().get(event.getId_association());
+                b.putParcelable("asso",asso);
+                i.putExtra("eventBundle", b);
+                i.putExtra("firstDate",event.getFirstDate().getTime());
+                i.putExtra("endDate",event.getEndDate().getTime());
+                startActivity(i);
+            }
+        });
+
 
         buttonLinear.addView(buttonNotification);
         buttonLinear.addView(buttonDetail);

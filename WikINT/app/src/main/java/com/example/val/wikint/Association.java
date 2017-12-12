@@ -16,121 +16,53 @@ public class Association implements Parcelable {
 
 
 
-    private String name;
+
     private int id;
-    private String profil_picture;
+    private String name;
     private String president;
     private String local;
     private String description;
-    private String cover_picture;
+    private ArrayList<String> pictures;
     private ArrayList<String> members;
-    private ArrayList<Event> eventList;
+    private ArrayList<Integer> id_Events;
 
-    public Association(String name, int id, String profil_picture, String president, String local, String description, String cover_picture, ArrayList<String> members, ArrayList<Event> eventList) {
-        this.name = name;
+    public Association(int id, String name, String president, String local, String description, ArrayList<String> pictures, ArrayList<String> members, ArrayList<Integer> id_Events) {
         this.id = id;
-        this.profil_picture = profil_picture;
+        this.name = name;
         this.president = president;
         this.local = local;
         this.description = description;
-        this.cover_picture = cover_picture;
+        this.pictures = pictures;
         this.members = members;
-        this.eventList = eventList;
+        this.id_Events = id_Events;
     }
+
+
+    protected Association(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        president = in.readString();
+        local = in.readString();
+        description = in.readString();
+        pictures = in.createStringArrayList();
+        members = in.createStringArrayList();
+    }
+
+
 
     @Override
     public String toString() {
         return "Association{" +
-                "name='" + name + '\'' +
-                ", id=" + id +
-                ", profil_picture='" + profil_picture + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", president='" + president + '\'' +
                 ", local='" + local + '\'' +
                 ", description='" + description + '\'' +
-                ", cover_picture='" + cover_picture + '\'' +
+                ", pictures=" + pictures +
                 ", members=" + members +
-                ", eventList=" + eventList +
+                ", id_Events=" + id_Events +
                 '}';
     }
-
-    protected Association(Parcel in) {
-        name = in.readString();
-        id = in.readInt();
-        profil_picture = in.readString();
-        president = in.readString();
-        local = in.readString();
-        description = in.readString();
-        members = in.createStringArrayList();
-        cover_picture = in.readString();
-    }
-
-    public static final Creator<Association> CREATOR = new Creator<Association>() {
-        @Override
-        public Association createFromParcel(Parcel in) {
-            return new Association(in);
-        }
-
-        @Override
-        public Association[] newArray(int size) {
-            return new Association[size];
-        }
-    };
-
-
-
-    public ArrayList<String> getMembers() {
-        return members;
-    }
-
-    public void setMembers(ArrayList<String> members) {
-        this.members = members;
-    }
-
-    public String getCover_picture() {
-        return cover_picture;
-    }
-
-    public void setCover_picture(String cover_picture) {
-        this.cover_picture = cover_picture;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getProfil_picture() {
-        return profil_picture;
-    }
-
-    public void String(String profil_picture) {
-        this.profil_picture = profil_picture;
-    }
-
-    public void setProfil_picture(String profil_picture) {
-        this.profil_picture = profil_picture;
-    }
-
-
-    public String getLocal() {
-        return local;
-    }
-
-    public void setLocal(String local) {
-        this.local = local;
-    }
-
-    public String getPresident() {
-        return president;
-    }
-
-    public void setPresident(String president) {
-        this.president = president;
-    }
-
 
     public int getId() {
         return id;
@@ -148,13 +80,66 @@ public class Association implements Parcelable {
         this.name = name;
     }
 
-    public ArrayList<Event> getEventList() {
-        return eventList;
+    public String getPresident() {
+        return president;
     }
 
-    public void setEventList(ArrayList<Event> eventList) {
-        this.eventList = eventList;
+    public void setPresident(String president) {
+        this.president = president;
     }
+
+    public String getLocal() {
+        return local;
+    }
+
+    public void setLocal(String local) {
+        this.local = local;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public ArrayList<String> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(ArrayList<String> pictures) {
+        this.pictures = pictures;
+    }
+
+    public ArrayList<String> getMembers() {
+        return members;
+    }
+
+    public void setMembers(ArrayList<String> members) {
+        this.members = members;
+    }
+
+    public ArrayList<Integer> getId_Events() {
+        return id_Events;
+    }
+
+    public void setId_Events(ArrayList<Integer> id_Events) {
+        this.id_Events = id_Events;
+    }
+
+    public static final Creator<Association> CREATOR = new Creator<Association>() {
+        @Override
+        public Association createFromParcel(Parcel in) {
+            return new Association(in);
+        }
+
+        @Override
+        public Association[] newArray(int size) {
+            return new Association[size];
+        }
+    };
+
 
     @Override
     public int describeContents() {
@@ -163,15 +148,12 @@ public class Association implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
         dest.writeInt(id);
-        dest.writeString(profil_picture);
+        dest.writeString(name);
         dest.writeString(president);
         dest.writeString(local);
         dest.writeString(description);
+        dest.writeStringList(pictures);
         dest.writeStringList(members);
-        dest.writeString(cover_picture);
     }
-
-
 }

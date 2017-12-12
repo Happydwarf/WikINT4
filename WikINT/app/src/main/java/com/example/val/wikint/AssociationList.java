@@ -1,20 +1,14 @@
 package com.example.val.wikint;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
@@ -23,21 +17,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.Date;
 
 /**
  * Created by alexisblervaque on 24/11/2017.
@@ -57,8 +46,10 @@ public class AssociationList extends Activity {
         AssoContainer = findViewById(R.id.AssoContainer);
 
 
+
+
         //Get Back the list of association;
-        ArrayList<Association> AssociationList = new ArrayList<Association>();
+        /*ArrayList<Association> AssociationList = new ArrayList<Association>();
         String description_bde = "Avec : une semaine et un week-end d’intégration à ne rater sous aucun prétexte, des soirées de folies et des voyages dans les capitales Européennes, tu n’auras pas le temps de t’ennuyer !\n" +
                 "\n" +
                 "Tu pourras aussi renforcer tes liens auprès de grandes entreprises lors de journées professionnelles organisées par nos soins.\n" +
@@ -124,32 +115,36 @@ public class AssociationList extends Activity {
         AssociationList.add(new Association("AbsINThe", 4, "logo_absinthe", "Alexandre Millero", "Grande salle du Foyer", description_absinthe, "cover_absinthe", null, null));
 
 
+*/
+
+        //Gson part test
+/*
         String my_json_string = loadJSONFromAsset(this);
         Log.d("JSON content as string", my_json_string);
 
         Log.d("Stop", "-------------------------------------------");
 
-        /*List<Coin> list = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            list.add(new Coin(String.valueOf(i)));
-        }
-
-        for (Coin coin : list) {
-            System.out.println(coin);
-        }*/
-
-        Log.d("Stop", "-------------------------------------------");
 
         JsonParser mGparser = new JsonParser();
         Gson mGson = new Gson();
+        Gson gson = new GsonBuilder().create();
+
         JsonArray associationsJsonArray = (JsonArray) mGparser.parse(my_json_string);
         ArrayList<Association> associations = mGson.fromJson(associationsJsonArray, new TypeToken<ArrayList<Association>>() {}.getType());
 
+*/
 
-        AssoContainer.setRowCount(AssociationList.size()/2 + AssociationList.size()%2);
+        DecodeJson JsonData = new DecodeJson(this);
+        ArrayList<Association> associations = JsonData.getAssociations();
+
+
+
+
+
+        AssoContainer.setRowCount(associations.size()/2 + associations.size()%2);
 
         int i = 0;
-        for (Association asso : AssociationList)
+        for (Association asso : associations)
         {
             GridLayout.Spec titleTxtSpecColumn = GridLayout.spec(i%2,GridLayout.FILL);
             GridLayout.Spec titleRowSpec = GridLayout.spec(i/2);
@@ -189,7 +184,7 @@ public class AssociationList extends Activity {
         LinearLayout.LayoutParams imageParam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         imageParam.gravity = Gravity.CENTER;
         image.setLayoutParams(imageParam);
-        int imageId = getResources().getIdentifier(asso.getProfil_picture(),"drawable",getPackageName());
+        int imageId = getResources().getIdentifier(asso.getPictures().get(0),"drawable",getPackageName());
         image.setImageResource(imageId);
         image.setPadding(10,30,10,10);
 
@@ -237,7 +232,7 @@ public class AssociationList extends Activity {
     public String loadJSONFromAsset(Context context) {
         String json = null;
         try {
-            InputStream is = context.getAssets().open("data.json");
+            InputStream is = context.getAssets().open("Associations.json");
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);

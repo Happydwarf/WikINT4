@@ -1,6 +1,8 @@
 package com.example.val.wikint;
 
 import android.media.Image;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.provider.ContactsContract;
 
 import java.util.ArrayList;
@@ -10,44 +12,62 @@ import java.util.Date;
  * Created by Val on 29/11/2017.
  */
 
-public class Event {
+public class Event implements Parcelable {
 
 
-    private Date date;
+
+    private int id;
     private String name;
+    private Date firstDate;
+    private Date endDate;
     private String description;
-    private ArrayList<String> images;
     private String lieu;
+    private ArrayList<String> images;
     private int id_association;
 
-    public Event(Date date, String name, String description, ArrayList<String> images, String lieu, int id_association) {
-        this.date = date;
+
+    public Event(int id, String name, Date firstDate, Date endDate, String description, String lieu, ArrayList<String> images, int id_association) {
+        this.id = id;
         this.name = name;
+        this.firstDate = firstDate;
+        this.endDate = endDate;
         this.description = description;
-        this.images = images;
         this.lieu = lieu;
+        this.images = images;
         this.id_association = id_association;
+    }
+
+    protected Event(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        description = in.readString();
+        lieu = in.readString();
+        images = in.createStringArrayList();
+        id_association = in.readInt();
     }
 
     @Override
     public String toString() {
         return "Event{" +
-                "date=" + date +
+                "id=" + id +
                 ", name='" + name + '\'' +
+                ", firstDate=" + firstDate +
+                ", endDate=" + endDate +
                 ", description='" + description + '\'' +
-                ", images=" + images +
                 ", lieu='" + lieu + '\'' +
+                ", images=" + images +
                 ", id_association=" + id_association +
                 '}';
     }
 
 
-    public Date getDate() {
-        return date;
+
+    public int getId() {
+        return id;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -58,20 +78,24 @@ public class Event {
         this.name = name;
     }
 
+    public Date getFirstDate() {
+        return firstDate;
+    }
+
+    public void setFirstDate(Date firstDate) {
+        this.firstDate = firstDate;
+    }
+
+    public Date getEndDate() {return endDate;}
+
+    public void setEndDate(Date endDate) { this.endDate = endDate;}
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public ArrayList<String> getImages() {
-        return images;
-    }
-
-    public void setImage(ArrayList<String> images) {
-        this.images = images;
     }
 
     public String getLieu() {
@@ -82,11 +106,48 @@ public class Event {
         this.lieu = lieu;
     }
 
+    public ArrayList<String> getImages() {
+        return images;
+    }
+
+    public void setImages(ArrayList<String> images) {
+        this.images = images;
+    }
+
     public int getId_association() {
         return id_association;
     }
 
     public void setId_association(int id_association) {
         this.id_association = id_association;
+    }
+
+
+
+    public static final Creator<Event> CREATOR = new Creator<Event>() {
+        @Override
+        public Event createFromParcel(Parcel in) {
+            return new Event(in);
+        }
+
+        @Override
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(description);
+        dest.writeString(lieu);
+        dest.writeStringList(images);
+        dest.writeInt(id_association);
     }
 }

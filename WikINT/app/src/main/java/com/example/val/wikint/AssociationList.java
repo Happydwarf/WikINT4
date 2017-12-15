@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +15,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by alexisblervaque on 24/11/2017.

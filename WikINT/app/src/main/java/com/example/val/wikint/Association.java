@@ -1,12 +1,9 @@
 package com.example.val.wikint;
 
-import android.media.Image;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Val on 29/11/2017.

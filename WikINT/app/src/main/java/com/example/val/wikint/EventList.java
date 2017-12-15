@@ -62,7 +62,7 @@ public class EventList extends Activity {
         LinearLayout.LayoutParams paramsFirst = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         paramsFirst.setMargins(0,0,0,20);
         result.setLayoutParams(paramsFirst);
-        //result.setBackgroundResource(R.drawable.border);
+        result.setBackgroundResource(R.drawable.border);
         result.setOrientation(LinearLayout.VERTICAL);
 
 

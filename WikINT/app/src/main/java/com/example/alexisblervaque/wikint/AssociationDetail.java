@@ -1,6 +1,8 @@
 package com.example.alexisblervaque.wikint;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +11,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 public class AssociationDetail extends AppCompatActivity {
 
@@ -53,14 +61,39 @@ public class AssociationDetail extends AppCompatActivity {
         emplacement_local.setText(local);
 
         String pp = asso.getPictures().get(0);
-        ImageView photo_profil = (ImageView) findViewById(R.id.profil_picture);
-        int imageId = getResources().getIdentifier(pp,"drawable",getPackageName());
-        photo_profil.setImageResource(imageId);
+        final ImageView photo_profil = (ImageView) findViewById(R.id.profil_picture);
+        photo_profil.getBackground().setAlpha(150);
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference(pp + ".png");
+        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                // Got the download URL for 'users/me/profile.png'
+                // Pass it to Picasso to download, show in ImageView and caching
+                Picasso.with(AssociationDetail.this).load(uri.toString()).into(photo_profil);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
 
         String cover = asso.getPictures().get(1);
-        ImageView cover_pict = (ImageView) findViewById(R.id.cover_picture);
-        int imageId2 = getResources().getIdentifier(cover,"drawable",getPackageName());
-        cover_pict.setImageResource(imageId2);
+        final ImageView cover_pict = (ImageView) findViewById(R.id.cover_picture);
+        storageReference = FirebaseStorage.getInstance().getReference(cover + ".png");
+        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                // Got the download URL for 'users/me/profile.png'
+                // Pass it to Picasso to download, show in ImageView and caching
+                Picasso.with(AssociationDetail.this).load(uri.toString()).into(cover_pict);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
 
 
         // Attach the different buttons to the different activities

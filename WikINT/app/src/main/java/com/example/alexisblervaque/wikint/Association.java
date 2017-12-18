@@ -3,6 +3,8 @@ package com.example.alexisblervaque.wikint;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.database.DataSnapshot;
+
 import java.util.ArrayList;
 
 /**
@@ -20,23 +22,39 @@ public class Association implements Parcelable {
     private String local;
     private String description;
     private ArrayList<String> pictures;
-    private ArrayList<String> members;
     private ArrayList<Integer> id_Events;
 
 
     public Association(){}
-/*
-    public Association(int id, String name, String president, String local, String description, ArrayList<String> pictures, ArrayList<String> members, ArrayList<Integer> id_Events) {
-        this.id = id;
-        this.name = name;
-        this.president = president;
-        this.local = local;
-        this.description = description;
+
+    public Association(DataSnapshot ds)
+    {
+        this.id = ds.child("id").getValue(Integer.class);
+        this.name = ds.child("name").getValue(String.class);
+        this.president = ds.child("president").getValue(String.class);
+        this.local = ds.child("local").getValue(String.class);
+        this.description = ds.child("description").getValue(String.class);
+
+        DataSnapshot picturesData = ds.child("pictures");
+        ArrayList<String> pictures = new ArrayList<>();
+        for (int i = 0; i<ds.child("pictures").getChildrenCount();i++)
+        {
+            String picture = picturesData.child(String.valueOf(i)).getValue(String.class);
+            pictures.add(picture);
+        }
         this.pictures = pictures;
-        this.members = members;
+
+
+        DataSnapshot id_EventsData = ds.child("id_Events");
+        ArrayList<Integer> id_Events = new ArrayList<>();
+        for (int i = 0; i<ds.child("id_Events").getChildrenCount();i++)
+        {
+            int id_Event = id_EventsData.child(String.valueOf(i)).getValue(Integer.class);
+            id_Events.add(id_Event);
+        }
         this.id_Events = id_Events;
     }
-*/
+
 
     protected Association(Parcel in) {
         id = in.readInt();
@@ -45,7 +63,6 @@ public class Association implements Parcelable {
         local = in.readString();
         description = in.readString();
         pictures = in.createStringArrayList();
-        members = in.createStringArrayList();
     }
 
 
@@ -59,7 +76,6 @@ public class Association implements Parcelable {
                 ", local='" + local + '\'' +
                 ", description='" + description + '\'' +
                 ", pictures=" + pictures +
-                ", members=" + members +
                 ", id_Events=" + id_Events +
                 '}';
     }
@@ -112,15 +128,7 @@ public class Association implements Parcelable {
         this.pictures = pictures;
     }
 
-    public ArrayList<String> getMembers() {
-        return members;
-    }
-
-    public void setMembers(ArrayList<String> members) {
-        this.members = members;
-    }
-
-    public ArrayList<Integer> getId_Events() {
+   public ArrayList<Integer> getId_Events() {
         return id_Events;
     }
 
@@ -154,6 +162,5 @@ public class Association implements Parcelable {
         dest.writeString(local);
         dest.writeString(description);
         dest.writeStringList(pictures);
-        dest.writeStringList(members);
     }
 }

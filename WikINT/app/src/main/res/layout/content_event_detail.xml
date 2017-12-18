@@ -9,9 +9,11 @@
     tools:showIn="@layout/activity_event_detail">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -152,15 +154,15 @@
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Plus d'événements"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:text="Plus d'événements" />
 
                     <Button
                         android:id="@+id/VoirAsso"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Détails asso"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:text="Détails asso" />
                 </LinearLayout>
 
             </LinearLayout>

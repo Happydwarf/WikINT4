@@ -4,19 +4,32 @@ import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,16 +41,21 @@ import java.util.ArrayList;
 @SuppressLint("ValidFragment")
 public class EventList extends Fragment {
 
-    View myView;
-    LinearLayout linearContent;
-    View container;
+    private View myView;
+    private LinearLayout linearContent;
+    private View container;
+    private LinearLayout isLoadingLinear;
+    private ScrollView dataLoaded;
+    private Data data;
+    private ArrayList<User> userArrayList;
+    private FirebaseStorage storage;
 
     @SuppressLint("ValidFragment")
-    public EventList(DecodeJson decodeJson) {
-        this.decodeJson = decodeJson;
+    public EventList(Data data, ArrayList<User> userArrayList) {
+        this.data = data;
+        this.userArrayList = userArrayList;
     }
 
-    DecodeJson decodeJson;
 
 
     @Nullable
@@ -46,21 +64,31 @@ public class EventList extends Fragment {
         this.container = container;
         myView = inflater.inflate(R.layout.event, container, false);
 
-
+        storage = FirebaseStorage.getInstance();
 
         linearContent = (LinearLayout) myView.findViewById(R.id.eventContainer);
 
-        ArrayList<Event> listeEvent = decodeJson.getEvents();
+        ArrayList<Event> listeEvent = data.getEvents();
 
 
+        isLoadingLinear = (LinearLayout)myView.findViewById(R.id.isLoadingLinear);
+        dataLoaded = (ScrollView)myView.findViewById(R.id.dataLoaded);
 
-        if (listeEvent!=null)
+
+        if (listeEvent.size()!=0)
         {
+            isLoadingLinear.setVisibility(View.GONE);
+            dataLoaded.setVisibility(View.VISIBLE);
             for (Event event : listeEvent)
             {
-                LinearLayout linear = eventLayout(event, decodeJson);
+                LinearLayout linear = eventLayout(event, data, myView.getContext());
                 linearContent.addView(linear);
             }
+        }
+        else
+        {
+            isLoadingLinear.setVisibility(View.VISIBLE);
+            dataLoaded.setVisibility(View.GONE);
         }
 
 
@@ -69,7 +97,7 @@ public class EventList extends Fragment {
 
 
 
-    private LinearLayout eventLayout(final Event event, final DecodeJson JsonData)
+    private LinearLayout eventLayout(final Event event, final Data data, final Context context)
     {
         LinearLayout result = new LinearLayout(container.getContext());
         LinearLayout.LayoutParams paramsFirst = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -86,19 +114,35 @@ public class EventList extends Fragment {
         headLayout.setOrientation(LinearLayout.HORIZONTAL);
 
         // Button logo for the head
-        ImageButton logoButton = new ImageButton(container.getContext());
-        logoButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        logoButton.setBackgroundColor(Color.TRANSPARENT);
-        logoButton.setPadding(15,15,15,15);
-        int imageLogoID = getResources().getIdentifier(JsonData.getAssociations().get(event.getId_association()).getPictures().get(0),"drawable", container.getContext().getPackageName());
-        logoButton.setImageResource(imageLogoID);
+        final ImageButton logoButton = new ImageButton(container.getContext());
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference(data.getAssociations().get(event.getId_association()).getPictures().get(0) + ".png");
+        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                // Got the download URL for 'users/me/profile.png'
+                // Pass it to Picasso to download, show in ImageView and caching
+                Picasso.with(context).load(uri.toString()).into(logoButton);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
 
+        LinearLayout.LayoutParams buttonParam = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
+        buttonParam.weight = (float)0.3;
+        logoButton.setLayoutParams(buttonParam);
+
+        logoButton.setBackgroundColor(Color.TRANSPARENT);
+        logoButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        logoButton.setPadding(15,30,15,15);
         logoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(),AssociationDetail.class);
                 Bundle b = new Bundle();
-                Association asso = JsonData.getAssociations().get(event.getId_association());
+                Association asso = data.getAssociations().get(event.getId_association());
                 b.putParcelable("Asso",asso);
                 i.putExtra("Association", b);
                 startActivity(i);
@@ -108,7 +152,9 @@ public class EventList extends Fragment {
 
         //Description of the head
         LinearLayout descriptionHead = new LinearLayout(container.getContext());
-        descriptionHead.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        LinearLayout.LayoutParams descriptionHeadParam = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
+        descriptionHeadParam.weight = (float)0.7;
+        descriptionHead.setLayoutParams(descriptionHeadParam);
         descriptionHead.setOrientation(LinearLayout.VERTICAL);
         descriptionHead.setPadding(5,5,5,5);
 
@@ -118,7 +164,7 @@ public class EventList extends Fragment {
         typeOfEvent.setLayoutParams(param1);
         typeOfEvent.setGravity(Gravity.CENTER_HORIZONTAL);
 
-        String associationName = JsonData.getAssociations().get(event.getId_association()).getName();
+        String associationName = data.getAssociations().get(event.getId_association()).getName();
         String type = "Evenement de " + associationName;
         typeOfEvent.setText(type);
 
@@ -154,26 +200,68 @@ public class EventList extends Fragment {
         line.setBackgroundColor(Color.parseColor("#ff33b5e5"));
 
         // Image of the event
-        ImageView image = new ImageView(container.getContext());
-        LinearLayout.LayoutParams paramImage = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,200);
+        final ImageView image = new ImageView(container.getContext());
+        storageReference = FirebaseStorage.getInstance().getReference(event.getImages().get(0) + ".png");
+        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                // Got the download URL for 'users/me/profile.png'
+                // Pass it to Picasso to download, show in ImageView and caching
+                Picasso.with(context).load(uri.toString()).into(image);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+        LinearLayout.LayoutParams paramImage = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 500);
         paramImage.setMargins(20,0,20,0);
         image.setLayoutParams(paramImage);
-        int idOfImage = getResources().getIdentifier(event.getImages().get(0),"drawable",container.getContext().getPackageName());
-        image.setImageResource(idOfImage);
-        image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        image.setScaleType(ImageView.ScaleType.FIT_CENTER);
 
-        // Buttons for the event
-        LinearLayout buttonLinear = new LinearLayout(container.getContext());
-        buttonLinear.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        buttonLinear.setPadding(10,10,10,10);
 
-        Button buttonNotification = new Button(container.getContext());
-        buttonNotification.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        buttonNotification.setGravity(Gravity.CENTER);
-        buttonNotification.setText("Prévenir des ami(e)s");
+
+
+        //Notification Container
+        LinearLayout.LayoutParams paramsButton = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        paramsButton.setMargins(5,5,5,5);
+        LinearLayout NotificationContainer = new LinearLayout(context);
+        NotificationContainer.setLayoutParams(paramsButton);
+
+        Spinner spinnerUsers = new Spinner(context);
+        LinearLayout.LayoutParams paramsSpinnerEvent = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
+        paramsSpinnerEvent.weight = (float)0.65;
+        spinnerUsers.setLayoutParams(paramsSpinnerEvent);
+        ArrayList<User> spinnerArray = new ArrayList<>();
+        for (User user: userArrayList)
+        {
+            spinnerArray.add(user);
+        }
+        ArrayAdapter<User> spinnerArrayAdapter = new ArrayAdapter<User>(myView.getContext(),   android.R.layout.simple_spinner_item, spinnerArray);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
+        spinnerUsers.setAdapter(spinnerArrayAdapter);
+
+
+        Button notifyButton = new Button(context);
+        LinearLayout.LayoutParams paramsModifyEvent = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
+        paramsModifyEvent.weight = (float)0.35;
+        notifyButton.setLayoutParams(paramsModifyEvent);
+        notifyButton.setText("Notifier");
+        notifyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseInstanceId 
+            }
+        });
+
+
+        NotificationContainer.addView(spinnerUsers);
+        NotificationContainer.addView(notifyButton);
+
 
         Button buttonDetail = new Button(container.getContext());
-        buttonDetail.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        buttonDetail.setLayoutParams(paramsButton);
         buttonDetail.setGravity(Gravity.CENTER);
         buttonDetail.setText("Détails");
 
@@ -183,7 +271,7 @@ public class EventList extends Fragment {
                 Intent i = new Intent(getActivity(),EventDetail.class);
                 Bundle b = new Bundle();
                 b.putParcelable("event",event);
-                Association asso = JsonData.getAssociations().get(event.getId_association());
+                Association asso = data.getAssociations().get(event.getId_association());
                 b.putParcelable("asso",asso);
                 i.putExtra("eventBundle", b);
                 i.putExtra("firstDate",event.getFirstDate().getTime());
@@ -195,8 +283,6 @@ public class EventList extends Fragment {
         });
 
 
-        buttonLinear.addView(buttonNotification);
-        buttonLinear.addView(buttonDetail);
 
 
 
@@ -204,7 +290,8 @@ public class EventList extends Fragment {
         result.addView(headLayout);
         result.addView(line);
         result.addView(image);
-        result.addView(buttonLinear);
+        result.addView(NotificationContainer);
+        result.addView(buttonDetail);
 
 
         return result;

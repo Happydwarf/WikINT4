@@ -1,7 +1,9 @@
 package com.example.alexisblervaque.wikint;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +12,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.Date;
 
@@ -35,9 +43,21 @@ public class EventDetail extends AppCompatActivity {
         final Event event = bundle.getParcelable("event");
         final Association asso = bundle.getParcelable("asso");
 
-        ImageView imageCover = (ImageView)findViewById(R.id.coverEventPicture);
-        int imageId = getResources().getIdentifier(event.getImages().get(0),"drawable", getPackageName());
-        imageCover.setImageResource(imageId);
+        final ImageView imageCover = (ImageView)findViewById(R.id.coverEventPicture);
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference(event.getImages().get(0) + ".png");
+        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                // Got the download URL for 'users/me/profile.png'
+                // Pass it to Picasso to download, show in ImageView and caching
+                Picasso.with(EventDetail.this).load(uri.toString()).into(imageCover);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
 
         TextView nameOfEvent = (TextView) findViewById(R.id.NameOfEvent);
         nameOfEvent.setText(event.getName());
@@ -74,7 +94,6 @@ public class EventDetail extends AppCompatActivity {
         TextView description = (TextView)findViewById(R.id.description);
         description.setText(event.getDescription());
 
-        final DecodeJson JsonData = new DecodeJson(this);
 
         Button voirAsso = (Button)findViewById(R.id.VoirAsso);
         voirAsso.setOnClickListener(new View.OnClickListener() {

@@ -3,6 +3,10 @@ package com.example.alexisblervaque.wikint;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -15,6 +19,12 @@ public class Event implements Parcelable {
 
 
     private int id;
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
     private String name;
     private Date firstDate;
     private Date endDate;
@@ -37,6 +47,36 @@ public class Event implements Parcelable {
         this.id_association = id_association;
     }
 
+    public Event(DataSnapshot ds)
+    {
+        gsonDate dateConverter = new gsonDate();
+
+        this.id = ds.child("id").getValue(Integer.class);
+        this.name = ds.child("name").getValue(String.class);
+
+        String dateString = ds.child("firstDate").getValue(String.class);
+        this.firstDate = dateConverter.convertToDate(dateString);
+        dateString = ds.child("endDate").getValue(String.class);
+        this.endDate = dateConverter.convertToDate(dateString);
+        this.description = ds.child("description").getValue(String.class);
+        this.lieu = ds.child("lieu").getValue(String.class);
+
+        DataSnapshot imagesData = ds.child("images");
+        ArrayList<String> images = new ArrayList<>();
+        for (int i = 0; i<ds.child("images").getChildrenCount();i++)
+        {
+            String image = imagesData.child(String.valueOf(i)).getValue(String.class);
+            images.add(image);
+        }
+
+        this.images = images;
+        this.id_association = ds.child("id_association").getValue(Integer.class);
+
+
+    }
+
+
+
     protected Event(Parcel in) {
         id = in.readInt();
         name = in.readString();
@@ -45,21 +85,6 @@ public class Event implements Parcelable {
         images = in.createStringArrayList();
         id_association = in.readInt();
     }
-
-    @Override
-    public String toString() {
-        return "Event{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", firstDate=" + firstDate +
-                ", endDate=" + endDate +
-                ", description='" + description + '\'' +
-                ", lieu='" + lieu + '\'' +
-                ", images=" + images +
-                ", id_association=" + id_association +
-                '}';
-    }
-
 
 
     public int getId() {
